@@ -76,7 +76,7 @@ if (isset($_POST['submit'])) {
                                         <input @keyup="verify" type="number" name='key-4' class='code-input g1' required />
                                         <input @keyup="verify" type="number" name='key-5' class='code-input g1' required />
                                         <input @keyup="verify" type="number" name='key-6' class='code-input g1' required />
-                                        <input @keyup="verify" type="number" name='key-8' class='code-input g1' required />
+                                        <input @keyup="verify" type="number" name='key-7' class='code-input g1' required />
                                     </div>
                                     <p v-if="error1" class="text-danger" style="font-size: 10px">{{message1}}</p>
                                 </fieldset>
