@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
 
 ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -62,7 +62,7 @@ if (isset($_POST['submit'])) {
         <div class="container">
             <div class="card mt-5">
                 <div class="card-body">
-                    <form action="" method="post">
+                    <form class="form" action="" method="post">
                         <h5 class="card-title">Génération des clés</h5>
                         <div class="row">
                             <div class="col-md-6">

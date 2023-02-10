@@ -50,9 +50,6 @@ a {
     font-size: 0.8em;
   }
 
-form {
-  background-color: grey;
-}
 .code-input {
     font-size: 1em;
     width: 50px !important;
