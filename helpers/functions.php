@@ -7,15 +7,13 @@ function permuteFunction(
 ): array {
 
     $responseArray = [];
-    if (count($originalArray) === count($permuteArray)) {
-
+    if (count($originalArray) == count($permuteArray)) {
         foreach ($permuteArray as $key => $index) {
             $responseArray[$key] = $originalArray[$index];
         }
     } else {
-
         return [
-            'erreur' => 'Erreur : le nombre de digit ne correspond pas !'
+            'erreur' => 'Erreur Permutation : le nombre de digit ne correspond pas !'
         ];
     }
 
@@ -32,17 +30,16 @@ function inversePermuteFunction(
     if (count($originalArray) > 2) {
         foreach ($originalArray as $key => $index) {
             foreach ($originalArray as $k => $value) {
-                if ($key === $value) {
+                if ($key == $value) {
                     $responseArray[] =  $k;
                 }
             }
         }
     } else {
         return [
-            'erreur' => 'Erreur : Le tableau doit avoir une taille minimale de 2 !'
+            'erreur' => 'Erreur inverse permutation : Le tableau doit avoir une taille minimale de 2 !'
         ];
     }
-
     return $responseArray;
 }
 
@@ -53,7 +50,7 @@ function dividerArrayEqualPart(
 
     $part1 = [];
     $part2 = [];
-    if (count($data) % 2 === 0) {
+    if (count($data) % 2 == 0) {
         for ($i = 0; $i < count($data) / 2; $i++) {
             $part1[] = $data[$i];
         }
@@ -62,7 +59,7 @@ function dividerArrayEqualPart(
         }
     } else {
         return [
-            'erreur' => 'Erreur : Le tabeau doit être de la taille paire !'
+            'erreur' => 'Erreur séparation tableau : Le tabeau doit être de la taille paire !'
         ];
     }
 
@@ -79,13 +76,13 @@ function andFunctionArray(
 ): array {
     $responseArray = [];
 
-    if (count($firstArray) === count($secondArray)) {
+    if (count($firstArray) == count($secondArray)) {
         for ($i = 0; $i < count($firstArray); $i++) {
             $responseArray[] = $firstArray[$i] && $secondArray[$i] ? 1 : 0;
         }
     } else {
         return [
-            'erreur' => 'Erreur : le nombre de digit ne correspond pas !'
+            'erreur' => 'Erreur fonction ET : le nombre de digit ne correspond pas !'
         ];
     }
 
@@ -99,13 +96,13 @@ function orFunctionArray(
 ): array {
     $responseArray = [];
 
-    if (count($firstArray) === count($secondArray)) {
+    if (count($firstArray) == count($secondArray)) {
         for ($i = 0; $i < count($firstArray); $i++) {
             $responseArray[] = $firstArray[$i] || $secondArray[$i] ? 1 : 0;
         }
     } else {
         return [
-            'erreur' => 'Erreur : le nombre de digit ne correspond pas !'
+            'erreur' => 'Erreur fonction OU : le nombre de digit ne correspond pas !'
         ];
     }
 
@@ -119,13 +116,13 @@ function xorFunctionArray(
 ): array {
     $responseArray = [];
 
-    if (count($firstArray) === count($secondArray)) {
+    if (count($firstArray) == count($secondArray)) {
         for ($i = 0; $i < count($firstArray); $i++) {
             $responseArray[] = xorFunctionElement($firstArray[$i], $secondArray[$i]) ? 1 : 0;
         }
     } else {
         return [
-            'erreur' => 'Erreur : le nombre de digit ne correspond pas !'
+            'erreur' => 'Erreur fonction XOR : le nombre de digit ne correspond pas !'
         ];
     }
 
@@ -159,7 +156,7 @@ function gapLeftFunctionInOrder(
         }
     } else {
         return [
-            'erreur' => 'Erreur : le tableau doit avoir une taille minimum de 2'
+            'erreur' => 'Erreur décalage gauche : le tableau doit avoir une taille minimum de 2'
         ];
     }
 
@@ -184,7 +181,7 @@ function gapRightFunctionInOrder(
         }
     } else {
         return [
-            'erreur' => 'Erreur : le tableau doit avoir une taille minimum de 2'
+            'erreur' => 'Erreur décalage droit : le tableau doit avoir une taille minimum de 2'
         ];
     }
 

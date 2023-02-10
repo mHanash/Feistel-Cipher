@@ -9,7 +9,6 @@ function encryption(
     array $keyTwo,
 ): array {
     $responseData = [];
-
     $inputPermute = permuteFunction($input, $permuteInput);
     $dividerData = dividerArrayEqualPart($inputPermute);
 
@@ -29,7 +28,9 @@ function encryption(
     foreach ($D2 as $value) {
         $responseData[] = $value;
     }
-
+    // echo ('<pre>');
+    // print_r(inversePermuteFunction($permuteInput));
+    // echo ('</pre>');
     $responseData = permuteFunction($responseData, inversePermuteFunction($permuteInput));
 
     return $responseData;

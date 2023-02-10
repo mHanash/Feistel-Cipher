@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
         $index = "keyPermute-" . $i;
         $keyPermute[] = $_POST[$index];
     }
-
+    $error = false;
     $data = [];
     for ($i = 0; $i < 8; $i++) {
         $index = "data-" . $i;
@@ -27,13 +27,30 @@ if (isset($_POST['submit'])) {
         $dataPermute[] = $_POST[$index];
     }
 
-
-
     $keys = (generateKeys($inputKeys, $keyPermute));
+    $stringKeysOne = '';
+    foreach ($keys['keyOne'] as $key => $value) {
+        if ($key === 'erreur') {
+            $error = true;
+        }
+        $stringKeysOne .= $value;
+    }
+
+    $stringKeysTwo = '';
+    foreach ($keys['keyTwo'] as $key => $value) {
+        if ($key === 'erreur') {
+            $error = true;
+        }
+        $stringKeysTwo .= $value;
+    }
+
     $encryption = encryption($data, $dataPermute, [2, 0, 1, 3], $keys['keyOne'], $keys['keyTwo']);
 
     $stringData = "";
     foreach ($encryption as $key => $value) {
+        if ($key === 'erreur') {
+            $error = true;
+        }
         $stringData .= $value;
     }
 }
@@ -97,7 +114,7 @@ if (isset($_POST['submit'])) {
                             </div>
                             <div class="col-md-6">
                                 <!-- <button class="mt-5 btn btn-primary">Générer</button><br /> -->
-                                RESULTAT :
+                                RESULTAT : <?= (isset($stringKeysOne)) ? "Prémière clé = " . $stringKeysOne : '' ?> <?= (isset($stringKeysTwo)) ? "Clé deuxième = " . $stringKeysTwo : '' ?>
                             </div>
                         </div>
 
