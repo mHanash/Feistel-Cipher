@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * Author : Zénas M. MOMONZO
+ * Email : zenasmomonzo@gmail.com
+ * GitHub : https://github.com/mHanash/
+ * @Copyright 2023
+ */
 require_once dirname(__DIR__) . "/helpers/functions.php";
 
 function generateKeys(

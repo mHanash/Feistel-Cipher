@@ -7,6 +7,8 @@ const vm = Vue.createApp({
       error2: false,
       error3: false,
       error4: false,
+      error5: false,
+      error6: false,
     };
   },
   methods: {
@@ -155,7 +157,7 @@ const vm = Vue.createApp({
       let index = val[1] * 1;
 
       if (e.target.value * 1 >= 0 && e.target.value * 1 < 8) {
-        this.error2 = false;
+        this.error4 = false;
         ele.addEventListener("keyup", (e) => {
           // if the keycode is backspace & the current field is empty
           // focus the input before the current. Then the event happens
@@ -191,7 +193,99 @@ const vm = Vue.createApp({
           console.log(code);
         }
       } else {
-        this.error2 = true;
+        this.error4 = true;
+      }
+    },
+    verifyDecrypt(e) {
+      const inputElements = [...document.querySelectorAll("input.g5")];
+      let ele = e.target;
+      let val = ele.name.split("-");
+      let index = val[1] * 1;
+
+      if (e.target.value * 1 === 0 || e.target.value * 1 === 1) {
+        this.error5 = false;
+        ele.addEventListener("keyup", (e) => {
+          // if the keycode is backspace & the current field is empty
+          // focus the input before the current. Then the event happens
+          // which will clear the "before" input box.
+          if (e.keyCode === 8 && e.target.value === "")
+            inputElements[Math.max(0, index - 1)].focus();
+        });
+        // if the keycode is backspace & the current field is empty
+        // focus the input before the current. Then the event happens
+        // which will clear the "before" input box.
+        if (e.keyCode === 8 && e.target.value === "")
+          inputElements[Math.max(0, index - 1)].focus();
+        ele.addEventListener("input", (e) => {
+          // take the first character of the input
+          // this actually breaks if you input an emoji like 👨‍👩‍👧‍👦....
+          // but I'm willing to overlook insane security code practices.
+          const [first, ...rest] = e.target.value;
+          e.target.value = first ?? ""; // first will be undefined when backspace was entered, so set the input to ""
+          const lastInputBox = index === inputElements.length - 1;
+          const didInsertContent = first !== undefined;
+          if (didInsertContent && !lastInputBox && inputElements[index + 1]) {
+            // continue to input the rest of the string
+            inputElements[index + 1].focus();
+            inputElements[index + 1].value = rest.join("");
+            inputElements[index + 1].dispatchEvent(new Event("input"));
+          }
+        });
+
+        // mini example on how to pull the data on submit of the form
+        function onSubmit(e) {
+          e.preventDefault();
+          const code = inputElements.map(({ value }) => value).join("");
+          console.log(code);
+        }
+      } else {
+        this.error5 = true;
+      }
+    },
+    verifyDecryptPermute(e) {
+      const inputElements = [...document.querySelectorAll("input.g6")];
+      let ele = e.target;
+      let val = ele.name.split("-");
+      let index = val[1] * 1;
+
+      if (e.target.value * 1 >= 0 && e.target.value * 1 < 8) {
+        this.error6 = false;
+        ele.addEventListener("keyup", (e) => {
+          // if the keycode is backspace & the current field is empty
+          // focus the input before the current. Then the event happens
+          // which will clear the "before" input box.
+          if (e.keyCode === 8 && e.target.value === "")
+            inputElements[Math.max(0, index - 1)].focus();
+        });
+        // if the keycode is backspace & the current field is empty
+        // focus the input before the current. Then the event happens
+        // which will clear the "before" input box.
+        if (e.keyCode === 8 && e.target.value === "")
+          inputElements[Math.max(0, index - 1)].focus();
+        ele.addEventListener("input", (e) => {
+          // take the first character of the input
+          // this actually breaks if you input an emoji like 👨‍👩‍👧‍👦....
+          // but I'm willing to overlook insane security code practices.
+          const [first, ...rest] = e.target.value;
+          e.target.value = first ?? ""; // first will be undefined when backspace was entered, so set the input to ""
+          const lastInputBox = index === inputElements.length - 1;
+          const didInsertContent = first !== undefined;
+          if (didInsertContent && !lastInputBox && inputElements[index + 1]) {
+            // continue to input the rest of the string
+            inputElements[index + 1].focus();
+            inputElements[index + 1].value = rest.join("");
+            inputElements[index + 1].dispatchEvent(new Event("input"));
+          }
+        });
+
+        // mini example on how to pull the data on submit of the form
+        function onSubmit(e) {
+          e.preventDefault();
+          const code = inputElements.map(({ value }) => value).join("");
+          console.log(code);
+        }
+      } else {
+        this.error6 = true;
       }
     },
   },

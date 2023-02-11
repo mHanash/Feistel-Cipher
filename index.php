@@ -1,8 +1,62 @@
 <?php
+session_start();
+/**
+ * Author : Zénas M. MOMONZO
+ * Email : zenasmomonzo@gmail.com
+ * GitHub : https://github.com/mHanash/
+ * @Copyright 2023
+ */
 require_once './FeistelCipher/generateKeys.php';
 require_once './FeistelCipher/encryption.php';
+require_once './FeistelCipher/decryption.php';
 
-if (isset($_POST['submit'])) {
+
+if (isset($_POST['decryptSend'])) {
+
+    if (isset($_SESSION['keys'])) {
+        $keys = $_SESSION['keys'];
+        $decrypt = [];
+        for ($i = 0; $i < 8; $i++) {
+            $index = "decrypt-" . $i;
+            $decrypt[] = $_POST[$index];
+        }
+
+        $decryptPermute = [];
+        for ($i = 0; $i < 8; $i++) {
+            $index = "decryptPermute-" . $i;
+            $decryptPermute[] = $_POST[$index];
+        }
+        $error = false;
+        $decryption = decryption($decrypt, $decryptPermute, [2, 0, 1, 3], $keys['keyOne'], $keys['keyTwo']);
+        $stringDecrypt = "";
+        foreach ($decryption as $key => $value) {
+            if ($key === 'erreur') {
+                $error = true;
+            }
+            $stringDecrypt .= $value;
+        }
+    }
+}
+if (isset($_SESSION['keys'])) {
+    $keys = $_SESSION['keys'];
+    $stringKeysOne = '';
+    foreach ($keys['keyOne'] as $key => $value) {
+        if ($key === 'erreur') {
+            $error = true;
+        }
+        $stringKeysOne .= $value;
+    }
+    $stringKeysTwo = '';
+    foreach ($keys['keyTwo'] as $key => $value) {
+        if ($key === 'erreur') {
+            $error = true;
+        }
+        $stringKeysTwo .= $value;
+    }
+}
+if (isset($_POST['keySubmit'])) {
+    $keys = [];
+    session_unset();
     $inputKeys = [];
     for ($i = 0; $i < 8; $i++) {
         $index = "key-" . $i;
@@ -14,20 +68,8 @@ if (isset($_POST['submit'])) {
         $index = "keyPermute-" . $i;
         $keyPermute[] = $_POST[$index];
     }
-    $error = false;
-    $data = [];
-    for ($i = 0; $i < 8; $i++) {
-        $index = "data-" . $i;
-        $data[] = $_POST[$index];
-    }
-
-    $dataPermute = [];
-    for ($i = 0; $i < 8; $i++) {
-        $index = "dataPermute-" . $i;
-        $dataPermute[] = $_POST[$index];
-    }
-
     $keys = (generateKeys($inputKeys, $keyPermute));
+    $_SESSION['keys'] = $keys;
     $stringKeysOne = '';
     foreach ($keys['keyOne'] as $key => $value) {
         if ($key === 'erreur') {
@@ -35,7 +77,6 @@ if (isset($_POST['submit'])) {
         }
         $stringKeysOne .= $value;
     }
-
     $stringKeysTwo = '';
     foreach ($keys['keyTwo'] as $key => $value) {
         if ($key === 'erreur') {
@@ -43,15 +84,32 @@ if (isset($_POST['submit'])) {
         }
         $stringKeysTwo .= $value;
     }
-
-    $encryption = encryption($data, $dataPermute, [2, 0, 1, 3], $keys['keyOne'], $keys['keyTwo']);
-
-    $stringData = "";
-    foreach ($encryption as $key => $value) {
-        if ($key === 'erreur') {
-            $error = true;
+}
+if (isset($_POST['encryptSubmit'])) {
+    if (isset($_SESSION['keys'])) {
+        $keys = $_SESSION['keys'];
+        $error = false;
+        $data = [];
+        for ($i = 0; $i < 8; $i++) {
+            $index = "data-" . $i;
+            $data[] = $_POST[$index];
         }
-        $stringData .= $value;
+
+        $dataPermute = [];
+        for ($i = 0; $i < 8; $i++) {
+            $index = "dataPermute-" . $i;
+            $dataPermute[] = $_POST[$index];
+        }
+
+        $encryption = encryption($data, $dataPermute, [2, 0, 1, 3], $keys['keyOne'], $keys['keyTwo']);
+
+        $stringData = "";
+        foreach ($encryption as $key => $value) {
+            if ($key === 'erreur') {
+                $error = true;
+            }
+            $stringData .= $value;
+        }
     }
 }
 
@@ -71,18 +129,20 @@ if (isset($_POST['submit'])) {
 
 <body>
     <div id="app">
-        <nav class="navbar pl-3 pr-3 navbar-dark bg-primary">
+        <nav class="navbar justify-content-center navbar-dark bg-dark">
             <a class="navbar-brand" href="#">
                 Sécurité : Travail pratique
             </a>
+            <a class="nav-link" target="_blank" href="https://github.com/mHanash" style="float:right">Par MOMONZO MUSONGI Zénas</a>
         </nav>
         <div class="container">
-            <div class="card mt-5">
+            <div class="card mt-1">
                 <div class="card-body">
-                    <form class="form" action="" method="post">
-                        <h5 class="card-title">Génération des clés</h5>
-                        <div class="row">
-                            <div class="col-md-6">
+                    <h5 class="card-title">Feistel Cipher</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form class="form" action="" method="post">
+                                <h6 class="card-title">Générations des clés</h6>
                                 <fieldset class='number-code'>
                                     <legend>Bloc d'entré</legend>
                                     <div>
@@ -111,16 +171,11 @@ if (isset($_POST['submit'])) {
                                     </div>
                                     <p v-if="error2" class="text-danger" style="font-size: 10px">{{message2}}</p>
                                 </fieldset>
-                            </div>
-                            <div class="col-md-6">
-                                <!-- <button class="mt-5 btn btn-primary">Générer</button><br /> -->
-                                RESULTAT : <?= (isset($stringKeysOne)) ? "Prémière clé = " . $stringKeysOne : '' ?> <?= (isset($stringKeysTwo)) ? "Clé deuxième = " . $stringKeysTwo : '' ?>
-                            </div>
-                        </div>
-
-                        <h5 class="card-title">Chiffrement</h5>
-                        <div class="row">
-                            <div class="col-md-6">
+                                <span class="text-primary">RESULTAT : <?= (isset($stringKeysOne)) ? "Prémière clé = " . $stringKeysOne : '' ?> <?= (isset($stringKeysTwo)) ? "Clé deuxième = " . $stringKeysTwo : '' ?></span><br />
+                                <button name="keySubmit" type="submit" class="btn-sm btn btn-primary">Générer</button>
+                            </form>
+                            <form class="form" action="" method="post">
+                                <h6 class="card-title mt-3">Chiffrement</h6>
                                 <fieldset class='number-code'>
                                     <legend>Bloc d'entré</legend>
                                     <div>
@@ -149,14 +204,58 @@ if (isset($_POST['submit'])) {
                                     </div>
                                     <p v-if="error4" class="text-danger" style="font-size: 10px">{{message2}}</p>
                                 </fieldset>
-                            </div>
-                            <div class="col-md-6">
-                                <button name="submit" type="submit" class="mt-5 btn btn-primary">Chiffrer</button><br />
-                                RESULTAT : <?= isset($_POST['submit']) ? 'La valeur chiffrer est : ' . $stringData : '' ?>
-                            </div>
+                                <span class="text-primary">RESULTAT : <?= isset($_POST['encryptSubmit']) ? 'La valeur chiffrer est : ' . $stringData : '' ?></span><br />
+                                <button name="encryptSubmit" type="submit" <?= (isset($_SESSION['keys']) ? '' : 'disabled') ?> class="btn-sm btn btn-primary">Chiffrement</button>
+                            </form>
                         </div>
+                        <div class="col-md-6">
+                            <form action="" method="post">
+                                <h6 class="card-title">Déchiffrement</h6>
+                                <fieldset class='number-code'>
+                                    <legend>Bloc d'entré</legend>
+                                    <div>
+                                        <input @keyup="verifyDecrypt" type="number" name='decrypt-0' class='code-input g5' required />
+                                        <input @keyup="verifyDecrypt" type="number" name='decrypt-1' class='code-input g5' required />
+                                        <input @keyup="verifyDecrypt" type="number" name='decrypt-2' class='code-input g5' required />
+                                        <input @keyup="verifyDecrypt" type="number" name='decrypt-3' class='code-input g5' required />
+                                        <input @keyup="verifyDecrypt" type="number" name='decrypt-4' class='code-input g5' required />
+                                        <input @keyup="verifyDecrypt" type="number" name='decrypt-5' class='code-input g5' required />
+                                        <input @keyup="verifyDecrypt" type="number" name='decrypt-6' class='code-input g5' required />
+                                        <input @keyup="verifyDecrypt" type="number" name='decrypt-7' class='code-input g5' required />
+                                    </div>
+                                    <p v-if="error5" class="text-danger" style="font-size: 10px">{{message1}}</p>
+                                </fieldset>
+                                <fieldset class='number-code'>
+                                    <legend>La permutation</legend>
+                                    <div>
+                                        <input @keyup="verifyDecryptPermute" type="number" name='decryptPermute-0' class='code-input g6' required />
+                                        <input @keyup="verifyDecryptPermute" type="number" name='decryptPermute-1' class='code-input g6' required />
+                                        <input @keyup="verifyDecryptPermute" type="number" name='decryptPermute-2' class='code-input g6' required />
+                                        <input @keyup="verifyDecryptPermute" type="number" name='decryptPermute-3' class='code-input g6' required />
+                                        <input @keyup="verifyDecryptPermute" type="number" name='decryptPermute-4' class='code-input g6' required />
+                                        <input @keyup="verifyDecryptPermute" type="number" name='decryptPermute-5' class='code-input g6' required />
+                                        <input @keyup="verifyDecryptPermute" type="number" name='decryptPermute-6' class='code-input g6' required />
+                                        <input @keyup="verifyDecryptPermute" type="number" name='decryptPermute-7' class='code-input g6' required />
+                                    </div>
+                                    <p v-if="error6" class="text-danger" style="font-size: 10px">{{message2}}</p>
+                                </fieldset>
+                                <span class="text-primary">RESULTAT : <?= isset($_POST['decryptSend']) ? 'La valeur déchiffrer est : ' . $stringDecrypt : '' ?></span><br />
+                                <button <?= (isset($_SESSION['keys']) ? '' : 'disabled') ?> name="decryptSend" type="submit" class="btn-sm btn btn-primary">Déchiffrer</button>
+                            </form>
 
-                    </form>
+                            <div class=" mt-3 p-2 card">
+                                Note : Pour utiliser ce programme, veuillez suivre ces étapes :
+                                <ul>
+                                    <li>Entrez la valeur de l'entrée pour générer les clés,</li>
+                                    <li>Entrez la valeur de la permutation,</li>
+                                    <li>Entrez la valeurs du message à chiffer ou déchiffrer ( en binaire ),</li>
+                                    <li>Renseigner la permutation,</li>
+                                </ul>
+                                <p>Pour la permutation interne au calcul des bloc, on a fixé la valeur à 2013.</p>
+                            </div>
+                            @Copyright 2023 Zén's
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Author : Zénas M. MOMONZO
+ * Email : zenasmomonzo@gmail.com
+ * GitHub : https://github.com/mHanash/
+ * @Copyright 2023
+ */
 //La fonction de pérmutation
 function permuteFunction(
     array $originalArray,
