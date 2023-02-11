@@ -2,9 +2,11 @@
 
 Ceci est un **Travail pratique** dans le compte du cours de sécurité et transmission des données **(L2 GENIE INFO)**.
 
-Pour lancer le projet, veuillez le cloné ou télécharger le zip et dans le terminal, vous pouvez ouvrir le serveur interne de PHP : 
+Pour lancer le projet, veuillez le cloné ou télécharger le zip et vous devez avoir PHP installer sur votre machine.
 
-```php -S localhost:8000``` , soit, utilisez n'importe quel autre _serveur_ (XAMPP, WAMP, ... ).
+Vous pouvez ouvrir le serveur interne de PHP en exécutant cette ligne de commande au terminal (console) : 
+
+```php -S localhost:8000``` , soit, utilisez n'importe quel autre _serveur web_ (XAMPP, WAMP, ... ).
 
 Puis ouvrir votre navigateur à l'adresse : ```http://localhost:8000``` pour lancer le projet.
 
