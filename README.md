@@ -1,5 +1,3 @@
-<img width="1280" alt="Screenshot 2023-02-11 at 02 12 01" src="https://user-images.githubusercontent.com/92532653/218231753-8d8190c8-0815-4b45-b53d-28817715affb.png">
-
 # Feistel Cipher
 
 Ceci est un **Travail pratique** dans le compte du cours de sécurité et transmission des données **(L2 GENIE INFO)**.
