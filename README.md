@@ -19,7 +19,7 @@ Puis ouvrir votre navigateur à l'adresse : ```http://localhost:8000``` pour lan
 - [@mHanash](https://www.github.com/mHanash)
 
 
-## Dépendances
+## Langages utilisés
 
  - [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
  - [Vue JS 3](https://vuejs.org/guide/introduction.html)
