@@ -6,7 +6,7 @@ Ceci est un **Travail pratique** dans le compte du cours de sécurité et transm
 Pour lancer le projet, veuillez le cloné ou télécharger le zip et dans le terminal, vous pouvez ouvrir le serveur interne de PHP : ```php -S localhost:8000``` , soit, utilisez n'importe quel _serveur_
 
 ## Screnshot
-![App Screenshot](/../main/screnshort/scren.png?text=Aperçu)
+![Apércu](/main/screnshort/scren.png?text=Aperçu)
 
 
 
